@@ -1,0 +1,23 @@
+stages:
+  - build
+  - test
+
+build_docker:
+  stage: build
+  image: docker:20.10
+  services:
+    - docker:dind
+  script:
+    - docker build -t log-parser:latest .
+  tags:
+    - docker
+
+run_test:
+  stage: test
+  image: docker:20.10
+  services:
+    - docker:dind
+  script:
+    - docker run --rm log-parser:latest
+  tags:
+    - docker
